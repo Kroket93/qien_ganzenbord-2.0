@@ -8,6 +8,9 @@ namespace Ganzenbord_2._0
 {
     public class Speler
     {
+
+        public event printMessageDelegate updateMessage;
+
         public string Naam { get; set; }
         public int Plaats { get; set; }
 
@@ -25,7 +28,8 @@ namespace Ganzenbord_2._0
         }
         public void printStatus()
         {
-            Console.WriteLine(Naam + " staat nu op plek " + Plaats);
+            string message = (Naam + " staat nu op plek " + Plaats);
+            updateMessage(message);
         }
     }
 }

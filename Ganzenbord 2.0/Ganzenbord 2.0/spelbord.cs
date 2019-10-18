@@ -6,40 +6,49 @@ using System.Threading.Tasks;
 
 namespace Ganzenbord_2._0
 {
-    class Spelbord
+    public class Spelbord
     {
+        public event printMessageDelegate updateMessage;
+
         public void regelsToepassen(Speler speler, int dobbelWaarde, ref bool spelBezig)
         {
             switch (speler.Plaats) {
                 case 23:
-                    Console.WriteLine("BOEF! " + Convert.ToString(speler.Naam) + " is de gevangenis in gegooid. Game Over.");
+                    string message = ("BOEF! " + Convert.ToString(speler.Naam) + " is de gevangenis in gegooid. Game Over.");
+                    updateMessage(message);
                     speler.doetMee = false;
                     break;
                 case 63:
-                    Console.WriteLine("Gewonnen! Het spel eindigt");
+                    string message2 = ("Gewonnen! Het spel eindigt");
+                    updateMessage(message2);
                     spelBezig = false;
                     Console.ReadKey();
                     break;
                 case int n when (n > 63):
                     int tooMuch = speler.Plaats - 63;
-                    Console.WriteLine("Oeps! te ver gegaan, ga " + Convert.ToString(tooMuch) + " plaatsen terug..");
+                    string message3 = ("Oeps! te ver gegaan, ga " + Convert.ToString(tooMuch) + " plaatsen terug..");
+                    updateMessage(message3);
                     speler.Plaats = 63 - tooMuch;
                     speler.printStatus();
                     break;
                 case 25:
-                    Console.WriteLine("25! Terug naar start..");
+                    string message4 = ("25! Terug naar start..");
+                    updateMessage(message4);
                     speler.Plaats = 0;
                     speler.printStatus();
                     break;
                 case 45:
-                    Console.WriteLine("45! Terug naar start..");
+                    string message5 = ("45! Terug naar start..");
+                    updateMessage(message5);
                     speler.Plaats = 0;
                     speler.printStatus();
                     break;
                 case int n when (n % 10 == 0):
-                    Console.WriteLine("10, 20, 30, 40, 50, of 60! Loop nogmaals " + Convert.ToString(dobbelWaarde) + " stappen, naar " + Convert.ToString(speler.Plaats + dobbelWaarde) + "!");
+                    string message6 = ("10, 20, 30, 40, 50, of 60! Loop nogmaals " + Convert.ToString(dobbelWaarde) + " stappen, naar " + Convert.ToString(speler.Plaats + dobbelWaarde) + "!");
+                    updateMessage(message6);
                     speler.lopen(dobbelWaarde);
                     speler.printStatus();
+                    regelsToepassen(speler, dobbelWaarde, ref spelBezig);
                     break;
             }
         }

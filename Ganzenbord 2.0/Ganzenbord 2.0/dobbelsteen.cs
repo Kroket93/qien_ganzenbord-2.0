@@ -8,11 +8,13 @@ namespace Ganzenbord_2._0
 {
     static class Dobbelsteen
     {
+        public static event printMessageDelegate updateMessage;
         public static int dobbelen()
         {
             Random rnd = new Random();
             int dobbelWaarde = rnd.Next(1, 7);
-            Console.WriteLine("Je hebt " + Convert.ToString(dobbelWaarde) + " gegooid");
+            string message = ("Je hebt " + Convert.ToString(dobbelWaarde) + " gegooid");
+            updateMessage(message);
             return dobbelWaarde;
         }
     }

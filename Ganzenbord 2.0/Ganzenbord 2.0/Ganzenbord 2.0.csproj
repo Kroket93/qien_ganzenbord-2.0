@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="messageDelegate.cs" />
     <Compile Include="dobbelsteen.cs" />
     <Compile Include="spelbord.cs" />
     <Compile Include="spel.cs" />

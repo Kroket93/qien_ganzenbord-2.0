@@ -1,27 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ganzenbord_2._0
 {
-    class Spel
+    public class Spel
     {
+
+        public Spel()
+        {
+            spelBord.updateMessage += update_Message;
+            Dobbelsteen.updateMessage += update_Message;
+
+        }
+        public event printMessageDelegate updateMessage;
+
+
         //intializeren
         //vars
         private List<Speler> spelerLijst = new List<Speler>();
-        private List<Speler> spelersTeVerwijderenLijst = new List<Speler>();
         bool spelBezig = true;
 
         //objs
-        Spelbord spelBord = new Spelbord();
+        public Spelbord spelBord = new Spelbord();
+
+
+
+
+        private static void update_Message(string message)
+        {
+            Console.WriteLine(message);
+        }
 
         public void spelStarten()
         {
             while (spelBezig)
             {
-                Speler spelerTeVerwijderen = null;
                 foreach (Speler speler in spelerLijst)
                 {
                     if (speler.doetMee)
@@ -45,13 +58,15 @@ namespace Ganzenbord_2._0
             bool klaar = false;
             while (!klaar)
             {
-                Console.WriteLine("Ganzenbord! voer de naam van een speler in. vul 'klaar' in om te starten!");
+                string message = "Ganzenbord! voer de naam van een speler in. vul 'klaar' in om te starten!";
+                updateMessage(message);
                 string input = Console.ReadLine();
                 if (input != "klaar")
                 {
                     if (input == "")
                     {
-                        Console.WriteLine("Error, vul een naam in!");
+                        string errorMessage = "Error, vul een naam in!";
+                        updateMessage(errorMessage);
                     }
                     else
                     {
@@ -63,12 +78,19 @@ namespace Ganzenbord_2._0
                     klaar = true;
                 }
             }
+
+            foreach (Speler speler in spelerLijst)
+            {
+                speler.updateMessage += update_Message;
+            }
         }
 
         public void eindeBeurt()
         {
-            Console.WriteLine("Druk ergens op om je beurt te eindigen");
-            Console.WriteLine(" ");
+            string message = "Druk ergens op om je beurt te eindigen";
+            updateMessage(message);
+            string message2 = " ";
+            updateMessage(message2);
             Console.ReadKey();
         }
 
@@ -79,23 +101,10 @@ namespace Ganzenbord_2._0
             spelerLijst.Add(spelerInstance);
         }
 
-        public void toevoegenAanVerwijderlijst(Speler speler)
-        {
-            if(speler != null)
-            {
-                spelersTeVerwijderenLijst.Add(speler);
-            }
-        }
-        public void spelersVerwijderen()
-        {
-            foreach (Speler obj in spelersTeVerwijderenLijst) {
-                spelerLijst.Remove(obj);
-            }
-        }
-
         public void printBeurt(Speler speler)
         {
-            Console.WriteLine(speler.Naam + " is nu aan de beurt");
+            string message = speler.Naam + " is nu aan de beurt";
+            updateMessage(message);
         }
     }
 }
