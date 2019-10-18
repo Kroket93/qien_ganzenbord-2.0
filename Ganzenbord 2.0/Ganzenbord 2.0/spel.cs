@@ -19,10 +19,8 @@ namespace Ganzenbord_2._0
 
         public void spelStarten()
         {
-
             while (spelBezig)
             {
-
                 Speler spelerTeVerwijderen = null;
                 foreach (Speler speler in spelerLijst)
                 {
@@ -33,20 +31,16 @@ namespace Ganzenbord_2._0
                     speler.printStatus();
                     spelBord.regelsToepassen(speler, dobbelWaarde, ref spelBezig, ref spelerTeVerwijderen);
                     toevoegenAanVerwijderlijst(spelerTeVerwijderen);
-                    Console.WriteLine("Druk ergens op om je beurt te eindigen");
-                    Console.WriteLine(" ");
-                    Console.ReadKey();
+                    eindeBeurt();
+
                 };
                 spelersVerwijderen();
-
-                //Console.ReadKey(); //einde van een while iteratie
             };
         }
 
         public void initialiseerSpelers()
         {
             bool klaar = false;
-
             while (!klaar)
             {
                 Console.WriteLine("Ganzenbord! voer de naam van een speler in. vul 'klaar' in om te starten!");
@@ -61,16 +55,21 @@ namespace Ganzenbord_2._0
                     {
                         spelerToevoegen(input);
                     }
-                    
-
                 }
                 else
                 {
                     klaar = true;
                 }
-                
             }
         }
+
+        public void eindeBeurt()
+        {
+            Console.WriteLine("Druk ergens op om je beurt te eindigen");
+            Console.WriteLine(" ");
+            Console.ReadKey();
+        }
+
 
         public void spelerToevoegen(string naamInput)
         {
@@ -84,15 +83,11 @@ namespace Ganzenbord_2._0
             {
                 spelersTeVerwijderenLijst.Add(speler);
             }
-            
         }
         public void spelersVerwijderen()
         {
             foreach (Speler obj in spelersTeVerwijderenLijst) {
-
                 spelerLijst.Remove(obj);
-
-
             }
         }
 

@@ -15,7 +15,6 @@ namespace Ganzenbord_2._0
             Naam = naamInput;
             Plaats = 0;
         }
-
         public void lopen(int dobbelWaarde)
         {
             Plaats += dobbelWaarde;
@@ -24,6 +23,5 @@ namespace Ganzenbord_2._0
         {
             Console.WriteLine(Naam + " staat nu op plek " + Plaats);
         }
-
     }
 }

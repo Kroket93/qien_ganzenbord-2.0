@@ -8,8 +8,6 @@ namespace Ganzenbord_2._0
 {
     class Spelbord
     {
-        
-        //regelsToepassen(spelerPositie)
         public void regelsToepassen(Speler speler, int dobbelWaarde, ref bool spelBezig, ref Speler spelerTeVerwijderen)
         {
             switch (speler.Plaats) {
@@ -45,8 +43,5 @@ namespace Ganzenbord_2._0
                     break;
             }
         }
-
-
-
     }
 }
