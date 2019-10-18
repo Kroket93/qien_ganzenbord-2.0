@@ -8,12 +8,12 @@ namespace Ganzenbord_2._0
 {
     class Spelbord
     {
-        public void regelsToepassen(Speler speler, int dobbelWaarde, ref bool spelBezig, ref Speler spelerTeVerwijderen)
+        public void regelsToepassen(Speler speler, int dobbelWaarde, ref bool spelBezig)
         {
             switch (speler.Plaats) {
                 case 23:
                     Console.WriteLine("BOEF! " + Convert.ToString(speler.Naam) + " is de gevangenis in gegooid. Game Over.");
-                    spelerTeVerwijderen = speler;
+                    speler.doetMee = false;
                     break;
                 case 63:
                     Console.WriteLine("Gewonnen! Het spel eindigt");

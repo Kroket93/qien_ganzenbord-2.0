@@ -24,17 +24,19 @@ namespace Ganzenbord_2._0
                 Speler spelerTeVerwijderen = null;
                 foreach (Speler speler in spelerLijst)
                 {
-                    printBeurt(speler);
-                    speler.printStatus();
-                    int dobbelWaarde = Dobbelsteen.dobbelen();
-                    speler.lopen(dobbelWaarde);
-                    speler.printStatus();
-                    spelBord.regelsToepassen(speler, dobbelWaarde, ref spelBezig, ref spelerTeVerwijderen);
-                    toevoegenAanVerwijderlijst(spelerTeVerwijderen);
-                    eindeBeurt();
+                    if (speler.doetMee)
+                    {
+                        printBeurt(speler);
+                        speler.printStatus();
+                        int dobbelWaarde = Dobbelsteen.dobbelen();
+                        speler.lopen(dobbelWaarde);
+                        speler.printStatus();
+                        spelBord.regelsToepassen(speler, dobbelWaarde, ref spelBezig);
+                        eindeBeurt();
+                    }
+
 
                 };
-                spelersVerwijderen();
             };
         }
 
