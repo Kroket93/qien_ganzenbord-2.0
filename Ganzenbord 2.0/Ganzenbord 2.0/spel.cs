@@ -13,14 +13,12 @@ namespace Ganzenbord_2._0
         private List<Speler> spelerLijst = new List<Speler>();
         private List<Speler> spelersTeVerwijderenLijst = new List<Speler>();
         bool spelBezig = true;
+
         //objs
         Spelbord spelBord = new Spelbord();
 
         public void spelStarten()
         {
-            //debug spelers instancen
-            spelerToevoegen("hans");
-            spelerToevoegen("griet");
 
             while (spelBezig)
             {
@@ -55,7 +53,16 @@ namespace Ganzenbord_2._0
                 string input = Console.ReadLine();
                 if (input != "klaar")
                 {
-                    spelerToevoegen(input);
+                    if (input == "")
+                    {
+                        Console.WriteLine("Error, vul een naam in!");
+                    }
+                    else
+                    {
+                        spelerToevoegen(input);
+                    }
+                    
+
                 }
                 else
                 {
