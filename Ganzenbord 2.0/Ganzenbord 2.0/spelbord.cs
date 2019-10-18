@@ -14,7 +14,7 @@ namespace Ganzenbord_2._0
         {
             switch (speler.Plaats) {
                 case 23:
-                    Console.WriteLine("BOEF! " + Convert.ToString(speler.Plaats) + " is de gevangenis in gegooid. Game Over.");
+                    Console.WriteLine("BOEF! " + Convert.ToString(speler.Naam) + " is de gevangenis in gegooid. Game Over.");
                     spelerTeVerwijderen = speler;
                     break;
                 case 63:
