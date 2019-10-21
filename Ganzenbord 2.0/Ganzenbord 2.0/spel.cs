@@ -9,10 +9,17 @@ namespace Ganzenbord_2._0
         public Spel()
         {
             spelBord.updateMessage += update_Message;
+            spelBord.waitForKey += wait_For_Key;
+            spelBord.readMessage += read_Message;
+            
             Dobbelsteen.updateMessage += update_Message;
 
         }
         public event printMessageDelegate updateMessage;
+        public event waitForKeyDelegate waitForKey;
+        public event readMessageDelegate readMessage;
+
+
 
 
         //intializeren
@@ -31,6 +38,17 @@ namespace Ganzenbord_2._0
             Console.WriteLine(message);
         }
 
+        private static void wait_For_Key()
+        {
+            Console.ReadKey();
+        }
+        
+        private static string read_Message()
+        {
+            return Console.ReadLine();
+        }
+        
+
         public void spelStarten()
         {
             while (spelBezig)
@@ -42,9 +60,12 @@ namespace Ganzenbord_2._0
                         printBeurt(speler);
                         speler.printStatus();
                         int dobbelWaarde = Dobbelsteen.dobbelen();
-                        speler.lopen(dobbelWaarde);
-                        speler.printStatus();
-                        spelBord.regelsToepassen(speler, dobbelWaarde, ref spelBezig);
+                        if (speler.beurtenOverslaan == 0 && !speler.inDePut)
+                        {
+                            speler.lopen(dobbelWaarde);
+                            speler.printStatus();
+                        }
+                        spelBord.regelsToepassen(speler, dobbelWaarde, ref spelBezig, spelerLijst);
                         eindeBeurt();
                     }
 
@@ -60,7 +81,7 @@ namespace Ganzenbord_2._0
             {
                 string message = "Ganzenbord! voer de naam van een speler in. vul 'klaar' in om te starten!";
                 updateMessage(message);
-                string input = Console.ReadLine();
+                string input = readMessage();//Console.ReadLine();
                 if (input != "klaar")
                 {
                     if (input == "")
@@ -91,7 +112,8 @@ namespace Ganzenbord_2._0
             updateMessage(message);
             string message2 = " ";
             updateMessage(message2);
-            Console.ReadKey();
+            waitForKey();
+            //Console.ReadKey();
         }
 
 

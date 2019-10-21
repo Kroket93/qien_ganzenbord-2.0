@@ -9,48 +9,87 @@ namespace Ganzenbord_2._0
     public class Spelbord
     {
         public event printMessageDelegate updateMessage;
+        public event waitForKeyDelegate waitForKey;
+        public event readMessageDelegate readMessage;
 
-        public void regelsToepassen(Speler speler, int dobbelWaarde, ref bool spelBezig)
+        public void regelsToepassen(Speler speler, int dobbelWaarde, ref bool spelBezig, List<Speler> spelerLijst)
         {
-            switch (speler.Plaats) {
-                case 23:
-                    string message = ("BOEF! " + Convert.ToString(speler.Naam) + " is de gevangenis in gegooid. Game Over.");
-                    updateMessage(message);
-                    speler.doetMee = false;
-                    break;
-                case 63:
-                    string message2 = ("Gewonnen! Het spel eindigt");
-                    updateMessage(message2);
-                    spelBezig = false;
-                    Console.ReadKey();
-                    break;
-                case int n when (n > 63):
-                    int tooMuch = speler.Plaats - 63;
-                    string message3 = ("Oeps! te ver gegaan, ga " + Convert.ToString(tooMuch) + " plaatsen terug..");
-                    updateMessage(message3);
-                    speler.Plaats = 63 - tooMuch;
-                    speler.printStatus();
-                    break;
-                case 25:
-                    string message4 = ("25! Terug naar start..");
-                    updateMessage(message4);
-                    speler.Plaats = 0;
-                    speler.printStatus();
-                    break;
-                case 45:
-                    string message5 = ("45! Terug naar start..");
-                    updateMessage(message5);
-                    speler.Plaats = 0;
-                    speler.printStatus();
-                    break;
-                case int n when (n % 10 == 0):
-                    string message6 = ("10, 20, 30, 40, 50, of 60! Loop nogmaals " + Convert.ToString(dobbelWaarde) + " stappen, naar " + Convert.ToString(speler.Plaats + dobbelWaarde) + "!");
-                    updateMessage(message6);
-                    speler.lopen(dobbelWaarde);
-                    speler.printStatus();
-                    regelsToepassen(speler, dobbelWaarde, ref spelBezig);
-                    break;
+            if (speler.beurtenOverslaan > 0)
+            {
+                speler.beurtenOverslaan -= 1;
+                string message = ("Je moest een beurt overslaan! hierna moet je nog " + Convert.ToString(speler.beurtenOverslaan) + " beurten overslaan");
+                updateMessage(message);
+                speler.printStatus();
             }
+            else if (speler.inDePut)
+            {
+                string message = ("Je zit in de put! Wacht tot je gered wordt..");
+                updateMessage(message);
+                speler.printStatus();
+            }
+            else
+            {
+                switch (speler.Plaats)
+                {
+                    case 6:
+                        string message = ("Je hebt een brug gevonden! Je gaat door naar 12!");
+                        updateMessage(message);
+                        speler.Plaats = 12;
+                        speler.printStatus();
+                        break;
+                    case 19:
+                        string message2 = ("Je hebt een herberg gevonden en besluit daar te rusten, volgende beurt overslaan!");
+                        updateMessage(message2);
+                        speler.beurtenOverslaan += 1;
+                        speler.printStatus();
+                        break;
+                    case int n when (n > 63):
+                        int tooMuch = speler.Plaats - 63;
+                        string message3 = ("Oeps! te ver gegaan, ga " + Convert.ToString(tooMuch) + " plaatsen terug..");
+                        updateMessage(message3);
+                        speler.Plaats = 63 - tooMuch;
+                        speler.printStatus();
+                        break;
+                    case 31:
+                        string message4 = ("Je bent in de put beland! Je moet hier blijven tot iemand anders in de put terecht komt..");
+                        updateMessage(message4);
+                        foreach (Speler splr in spelerLijst)
+                        {
+                            if (splr.inDePut)
+                            {
+                                splr.inDePut = false;
+                                string message5 = (Convert.ToString(splr.Naam + " is uit de put!"));
+                                updateMessage(message5);
+                            }
+                        }
+                        speler.inDePut = true;
+                        speler.printStatus();
+                        break;
+                    case 42:
+                        string message6 = ("Je bent verdwaald geraakt in een doolhof, ga terug naar 39!");
+                        updateMessage(message6);
+                        speler.Plaats = 39;
+                        speler.printStatus();
+                        break;
+                    case 52:
+                        string message7 = ("Je bent in de gevangenis beland! 3 beurten overslaan..");
+                        updateMessage(message7);
+                        speler.beurtenOverslaan = 3;
+                        speler.printStatus();
+                        break;
+                    case 58:
+                        string message8 = ("Je gans is doodgegaan! begin opnieuw met een andere gans");
+                        updateMessage(message8);
+                        speler.Plaats = 0;
+                        speler.printStatus();
+                        break;
+                    case 63:
+                        string message9 = (Convert.ToString(speler.Naam) + " heeft gewonnen!! Het spel is beeindigd!");
+                        spelBezig = false;
+                        break;
+                }
+            }
+ 
         }
     }
 }

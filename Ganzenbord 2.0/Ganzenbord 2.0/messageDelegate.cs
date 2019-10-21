@@ -7,4 +7,7 @@ using System.Threading.Tasks;
 namespace Ganzenbord_2._0
 {
     public delegate void printMessageDelegate(string message);
+    public delegate string readMessageDelegate();
+    public delegate void waitForKeyDelegate();
 }
+
